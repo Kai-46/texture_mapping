@@ -6,7 +6,7 @@ To use on the cluster, simply
 * git clone the codebase into the cluster
 * then switch to the codebase, and run 'docker build -t \<image name\> .' to build the docker image locally
 * then run 'docker_run.sh \<image name\> python /texture_mapping/TextureMapper.py \<mesh file\>
-<ortho-photo\> \<output file prefix\>'
+<ortho-photo\> \<output filename\>'
 
 Note that 'docker_run.sh' is a script stored at '/phoenix/S3/kz298'
 
