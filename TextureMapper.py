@@ -1,5 +1,3 @@
-# this is a wrapper class for GeoTiff images
-
 import os
 import json
 import re
