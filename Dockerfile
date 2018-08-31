@@ -39,7 +39,8 @@ COPY . /texture_mapping
 
 # specify a working directory inside the docker image filesystem
 WORKDIR /texture_mapping
-
+# give full access to non-root users
+RUN chmod -R 777 /texture_mapping
 # provide an entry point
 # ENTRYPOINT["/<source code folder name>/entry_point.sh"]
 
