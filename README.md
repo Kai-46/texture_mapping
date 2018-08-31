@@ -4,7 +4,7 @@ This codebase implements the texture-mapping a primitive (.ply file) to a ortho-
 
 To use on the cluster, simply
 * git clone the codebase into the cluster
-* then switch to the codebase, and run 'docker build -t \<image name\> .'
+* then switch to the codebase, and run 'docker build -t \<image name\> .' to build the docker image locally
 * then run 'docker_run.sh \<image name\> python /texture_mapping/TextureMapper.py \<mesh file\>
 <ortho-photo\> \<output file prefix\>'
 
