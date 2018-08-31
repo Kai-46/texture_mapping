@@ -12,12 +12,12 @@ ARG DEBIAN_FRONTEND=non-interactive
 
 # install all package dependencies
 # RUN apt-get update && apt-get install -y git build-essential cmake
-RUN apt-get update && apt-get install python3 python3-pip python3-numpy python3-scipy
+RUN apt-get update && apt-get install -y python3 python3-pip python3-numpy python3-scipy
 RUN pip install -U pip
 # package for dealing with .ply files
 RUN pip install plyfile
 # install GDAL
-RUN apt-get update && apt-get install gdal python-gdal
+RUN apt-get update && apt-get install -y gdal python-gdal
 
 # the docker image filesystem has exactly the same structure as that of a linux system
 # pull the source code from the github
