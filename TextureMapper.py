@@ -1,7 +1,7 @@
 import os
 import json
 import re
-from plyfile import PlyData, PlyElement
+from plyfile import PlyData, PlyElement, PlyProperty, PlyListProperty
 import numpy as np
 import argparse
 
@@ -58,6 +58,11 @@ class TextureMapper(object):
         self.ply_data = PlyData.read(ply_path)
         self.vertices = self.ply_data.elements[0]
         self.faces = self.ply_data.elements[1]
+        self.ply_textured = None
+        self.texture_ply()
+
+    # write texture coordinate to vertex
+    def texture_ply(self):
         # drop the RGB properties, and add two new properties (u, v)
         vert_list = []
         for vert in self.vertices.data:
@@ -68,21 +73,52 @@ class TextureMapper(object):
                             dtype=[('x', '<f4'), ('y', '<f4'), ('z', '<f4'),
                                    ('nx', '<f4'), ('ny', '<f4'), ('nz', '<f4'),
                                    ('u', '<f4'), ('v', '<f4')])
-        faces = self.faces.data
         vert_el = PlyElement.describe(vertices, 'vertex',
                                       comments=['point coordinate, surface normal, texture coordinate'])
-        face_el = PlyElement.describe(faces, 'face')
-        self.ply_textured = PlyData([vert_el, face_el], text=True)
+        self.ply_textured = PlyData([vert_el, self.faces], text=True)
 
-    def save(self, prefix):
-        # convert tiff to png
-        fname = prefix + '_texture.png'
-        os.system('gdal_translate -ot Byte -of png {} {}'.format(self.tiff.fpath, fname))
+    # write texture coordinate to face
+    @staticmethod
+    def insert_uv_to_face(ply_path):
+        ply = PlyData.read(ply_path)
+        uv_coord = ply['vertex'][['u', 'v']]
+        vert_cnt = ply['vertex'].count
+
+        with open(ply_path) as fp:
+            all_lines = fp.readlines()
+        modified = []
+        flag = False; cnt = 0
+        for line in all_lines:
+            line = line.strip()
+            if cnt < vert_cnt:
+                modified.append(line)
+            if line == 'property list uchar int vertex_indices':
+                modified.append('property list uchar float texcoord')
+            if flag:
+                cnt += 1
+            if line == 'end_header':
+                flag = True
+            if cnt > vert_cnt: # start modify faces
+                face = [int(x) for x in line.split(' ')]
+                face_vert_cnt = face[0]
+                line += ' {}'.format(face_vert_cnt * 2)
+                for i in range(1, face_vert_cnt + 1):
+                    idx = face[i]
+                    line += ' {:.9f} {:.9f}'.format(uv_coord[idx]['u'],  uv_coord[idx]['v'])
+                modified.append(line)
+        with open(ply_path, 'w') as fp:
+            fp.writelines([line + '\n' for line in modified])
+
+    def save(self, fname):
+        # convert tiff to jpg
+        os.system('gdal_translate -ot Byte -of jpeg {} {}.jpg'.format(self.tiff.fpath, fname))
         # remove the intermediate file
-        os.remove(prefix + '_texture.png.aux.xml')
+        os.remove(fname + '.jpg.aux.xml')
         # save ply
-        fname = prefix + '_mesh.ply'
-        self.ply_textured.write(fname)
+        name = fname[fname.rfind('/')+1:]
+        self.ply_textured.comments = ['TextureFile {}.jpg'.format(name), ]   # add texture file into the comment
+        self.ply_textured.write('{}.ply'.format(fname))
+        TextureMapper.insert_uv_to_face('{}.ply'.format(fname))
 
 
 def test():
@@ -96,22 +132,22 @@ def test2():
     tiff_path = '/home/kai/satellite_project/sync_folder/true_ortho.tif'
     ply_path = '/home/kai/satellite_project/sync_folder/d2_primitives/001_1_box_color.ply'
     texture_mapper = TextureMapper(ply_path, tiff_path)
-    texture_mapper.save('true_ortho')
+    texture_mapper.save('test')
 
 
 def deploy():
     parser = argparse.ArgumentParser(description='texture-map a .ply to a .tif ')
     parser.add_argument('mesh', help='path/to/.ply/file')
     parser.add_argument('orthophoto', help='path/to/.tif/file')
-    parser.add_argument('prefix', help='prefix for the output files. will output '
-                                       '{prefix}_mesh.ply and {prefix}_texture.png')
-
+    parser.add_argument('filename', help='filename for the output files. will output '
+                                       '{filename}.ply and {filename}.jpg')
     args = parser.parse_args()
+
     texture_mapper = TextureMapper(args.mesh, args.orthophoto)
-    texture_mapper.save(args.prefix)
+    texture_mapper.save(args.filename)
 
 
 if __name__ == '__main__':
     # test()
-    # test2()
-    deploy()
+    test2()
+    # deploy()
