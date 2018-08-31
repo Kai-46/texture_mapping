@@ -19,7 +19,7 @@ RUN ln -s /usr/bin/pip3 /usr/bin/pip
 # package for dealing with .ply files
 RUN pip install plyfile
 # install GDAL
-RUN apt-get update && apt-get install -y gdal python3-gdal
+RUN apt-get update && apt-get install -y gdal-bin python3-gdal
 
 # the docker image filesystem has exactly the same structure as that of a linux system
 # pull the source code from the github
