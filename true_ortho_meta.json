@@ -1,0 +1,152 @@
+{
+  "description": "/home/kai/satellite_project/sync_folder/true_ortho.tif",
+  "driverShortName": "GTiff",
+  "driverLongName": "GeoTIFF",
+  "files": [
+    "/home/kai/satellite_project/sync_folder/true_ortho.tif",
+    "/home/kai/satellite_project/sync_folder/true_ortho.tif.aux.xml"
+  ],
+  "size": [
+    1460,
+    1684
+  ],
+  "coordinateSystem": {
+    "wkt": "PROJCS[\"WGS 84 / UTM zone 16N\",\n    GEOGCS[\"WGS 84\",\n        DATUM[\"WGS_1984\",\n            SPHEROID[\"WGS 84\",6378137,298.257223563,\n                AUTHORITY[\"EPSG\",\"7030\"]],\n            AUTHORITY[\"EPSG\",\"6326\"]],\n        PRIMEM[\"Greenwich\",0,\n            AUTHORITY[\"EPSG\",\"8901\"]],\n        UNIT[\"degree\",0.0174532925199433,\n            AUTHORITY[\"EPSG\",\"9122\"]],\n        AUTHORITY[\"EPSG\",\"4326\"]],\n    PROJECTION[\"Transverse_Mercator\"],\n    PARAMETER[\"latitude_of_origin\",0],\n    PARAMETER[\"central_meridian\",-87],\n    PARAMETER[\"scale_factor\",0.9996],\n    PARAMETER[\"false_easting\",500000],\n    PARAMETER[\"false_northing\",0],\n    UNIT[\"metre\",1,\n        AUTHORITY[\"EPSG\",\"9001\"]],\n    AXIS[\"Easting\",EAST],\n    AXIS[\"Northing\",NORTH],\n    AUTHORITY[\"EPSG\",\"32616\"]]"
+  },
+  "geoTransform": [
+    749352.0,
+    0.5,
+    0.0,
+    4407863.0,
+    0.0,
+    -0.5
+  ],
+  "metadata": {
+    "": {
+      "AREA_OR_POINT": "Area"
+    },
+    "IMAGE_STRUCTURE": {
+      "INTERLEAVE": "PIXEL"
+    }
+  },
+  "cornerCoordinates": {
+    "upperLeft": [
+      749352.0,
+      4407863.0
+    ],
+    "lowerLeft": [
+      749352.0,
+      4407021.0
+    ],
+    "lowerRight": [
+      750082.0,
+      4407021.0
+    ],
+    "upperRight": [
+      750082.0,
+      4407863.0
+    ],
+    "center": [
+      749717.0,
+      4407442.0
+    ]
+  },
+  "wgs84Extent": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -84.0881843,
+          39.7842057
+        ],
+        [
+          -84.0885039,
+          39.7766289
+        ],
+        [
+          -84.0799906,
+          39.7764149
+        ],
+        [
+          -84.0796701,
+          39.7839915
+        ],
+        [
+          -84.0881843,
+          39.7842057
+        ]
+      ]
+    ]
+  },
+  "bands": [
+    {
+      "band": 1,
+      "block": [
+        1460,
+        1
+      ],
+      "type": "Byte",
+      "colorInterpretation": "Red",
+      "min": 0.0,
+      "max": 255.0,
+      "minimum": 0.0,
+      "maximum": 255.0,
+      "mean": 96.888,
+      "stdDev": 53.913,
+      "metadata": {
+        "": {
+          "STATISTICS_MAXIMUM": "255",
+          "STATISTICS_MEAN": "96.887881105001",
+          "STATISTICS_MINIMUM": "0",
+          "STATISTICS_STDDEV": "53.913289345738"
+        }
+      }
+    },
+    {
+      "band": 2,
+      "block": [
+        1460,
+        1
+      ],
+      "type": "Byte",
+      "colorInterpretation": "Green",
+      "min": 0.0,
+      "max": 255.0,
+      "minimum": 0.0,
+      "maximum": 255.0,
+      "mean": 105.855,
+      "stdDev": 49.934,
+      "metadata": {
+        "": {
+          "STATISTICS_MAXIMUM": "255",
+          "STATISTICS_MEAN": "105.85495070445",
+          "STATISTICS_MINIMUM": "0",
+          "STATISTICS_STDDEV": "49.934399103724"
+        }
+      }
+    },
+    {
+      "band": 3,
+      "block": [
+        1460,
+        1
+      ],
+      "type": "Byte",
+      "colorInterpretation": "Blue",
+      "min": 0.0,
+      "max": 255.0,
+      "minimum": 0.0,
+      "maximum": 255.0,
+      "mean": 103.49,
+      "stdDev": 48.52,
+      "metadata": {
+        "": {
+          "STATISTICS_MAXIMUM": "255",
+          "STATISTICS_MEAN": "103.49010306511",
+          "STATISTICS_MINIMUM": "0",
+          "STATISTICS_STDDEV": "48.520056960969"
+        }
+      }
+    }
+  ]
+}
