@@ -11,7 +11,7 @@ class TifImg(object):
         if not os.path.isabs(fpath):
             fpath = os.path.abspath(fpath)
         self.fpath = fpath
-        # ds = gdal.open(fname)
+        # get metadata of .tif
         meta_str = os.popen('gdalinfo -json {}'.format(self.fpath)).read()
         self.meta = json.loads(meta_str)
         self.size = self.meta['size']  # [width, height]
