@@ -1,7 +1,7 @@
 import os
 import json
 import re
-from plyfile import PlyData, PlyElement, PlyProperty, PlyListProperty
+from plyfile import PlyData, PlyElement
 import numpy as np
 import argparse
 
@@ -41,6 +41,13 @@ class TifImg(object):
 
         return row, col
 
+    def point_coord(self, pixel):
+        (x, y) = pixel
+        easting = self.ul[0] + y * self.pixel_w
+        northing = self.ul[1] - x * self.pixel_h
+
+        return easting, northing
+
     def norm_coord(self, point):
         # the point is in utm coordinate
         # (easting, northing, elevation)
@@ -48,6 +55,9 @@ class TifImg(object):
 
         u = (x - self.ll[0]) / (self.lr[0] - self.ll[0])
         v = (y - self.ll[1]) / (self.ul[1] - self.ll[1])
+
+        # v = (x - self.ul[0]) / (self.ur[0] - self.ul[0])
+        # u = (self.ul[1] - y) / (self.ul[1] - self.ll[1])
 
         return u, v
 

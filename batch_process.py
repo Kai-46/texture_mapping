@@ -16,7 +16,7 @@ if primitive_folder == output_folder:
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
 
-for item in os.listdir(args.primitive_folder):
+for item in os.listdir(primitive_folder):
     if item[-4:] == '.ply' and 'box' in item:
         print('processing item: {}'.format(item))
         name = item[:-4]
