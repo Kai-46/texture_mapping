@@ -16,9 +16,16 @@ if primitive_folder == output_folder:
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
 
+flag = True
+idx1 = args.orthophoto.rfind('/')
+idx2 = args.orthophoto.rfind('.')
+texture_fname = os.path.join(output_folder, args.orthophoto[idx1+1:idx2])
 for item in os.listdir(primitive_folder):
-    if item[-4:] == '.ply' and 'box' in item:
+    if item[-4:] == '.ply' and 'box_color' in item:
         print('processing item: {}'.format(item))
         name = item[:-4]
         texture_mapper = TextureMapper(os.path.join(primitive_folder, item), args.orthophoto)
-        texture_mapper.save(os.path.join(output_folder, name))
+        if flag:    # keep one copy of the texture image
+            texture_mapper.save_texture(texture_fname)
+            flag = False
+        texture_mapper.save_ply(os.path.join(output_folder, name), texture_fname)

@@ -87,6 +87,20 @@ class TextureMapper(object):
                                       comments=['point coordinate, surface normal, texture coordinate'])
         self.ply_textured = PlyData([vert_el, self.faces], text=True)
 
+    # fname should not come with a file extension
+    def save_texture(self, fname):
+        # convert tiff to jpg
+        os.system('gdal_translate -ot Byte -of jpeg {} {}.jpg'.format(self.tiff.fpath, fname))
+        # remove the intermediate file
+        os.remove(fname + '.jpg.aux.xml')
+
+    # fname and texture_fname should not come with a file extension
+    def save_ply(self, fname, texture_fname):
+        name = texture_fname[texture_fname.rfind('/')+1:]
+        self.ply_textured.comments = ['TextureFile {}.jpg'.format(name), ]   # add texture file into the comment
+        self.ply_textured.write('{}.ply'.format(fname))
+        TextureMapper.insert_uv_to_face('{}.ply'.format(fname))
+
     # write texture coordinate to face
     @staticmethod
     def insert_uv_to_face(ply_path):
@@ -139,10 +153,10 @@ def test():
 
 
 def test2():
-    tiff_path = '/home/kai/satellite_project/sync_folder/true_ortho.tif'
-    ply_path = '/home/kai/satellite_project/sync_folder/d2_primitives/001_1_box_color.ply'
+    tiff_path = '/home/kai/satellite_project/d2_texture_result/true_ortho.tif'
+    ply_path = '/home/kai/satellite_project/d2_texture_result/d2_merged.ply'
     texture_mapper = TextureMapper(ply_path, tiff_path)
-    texture_mapper.save('test')
+    texture_mapper.save('/home/kai/satellite_project/d2_texture_result/d2_merged_textured')
 
 
 def deploy():
@@ -159,5 +173,5 @@ def deploy():
 
 if __name__ == '__main__':
     # test()
-    # test2()
-    deploy()
+    test2()
+    # deploy()
