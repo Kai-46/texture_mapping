@@ -56,9 +56,6 @@ class TifImg(object):
         u = (x - self.ll[0]) / (self.lr[0] - self.ll[0])
         v = (y - self.ll[1]) / (self.ul[1] - self.ll[1])
 
-        # v = (x - self.ul[0]) / (self.ur[0] - self.ul[0])
-        # u = (self.ul[1] - y) / (self.ul[1] - self.ll[1])
-
         return u, v
 
 
