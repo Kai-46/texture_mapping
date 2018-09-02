@@ -1,5 +1,6 @@
 import argparse
 import os
+from plyfile import PlyData
 
 parser = argparse.ArgumentParser(description='merge multiple .ply files representing primitives into a single one')
 parser.add_argument('primitive_folder', help='path/to/primitive/folder')
@@ -53,3 +54,31 @@ with open(output_ply, 'w') as fp:
 for item in discard_item_list:
     print(item)
 print('total numbers of discarded items: {}'.format(len(discard_item_list)))
+
+# create another merged file which includes the nonBox .ply
+header = header[:7] + header[13:]
+another_vert_list = []
+for vert in vert_list:
+    tmp = vert.strip().split(' ')
+    another_vert_list.append('{} {} {}\n'.format(tmp[0], tmp[1], tmp[2]))
+
+for item in discard_item_list:
+    if 'nonBox' in item:
+        ply = PlyData.read(os.path.join(primitive_folder, item))
+        for vert in ply['vertex']:
+            another_vert_list.append('{} {} {}\n'.format(vert['x'], vert['y'], vert['z']))
+        for face in ply['face']:
+            face = face[0]
+            if len(face) != 3:
+                raise ValueError('non-triangular mesh detected: {}'.format(item))
+            else:
+                face_list.append('3 {} {} {}\n'.format(face[0]+index_drift,
+                                                       face[1]+index_drift, face[2]+index_drift))
+        index_drift += ply['vertex'].count
+
+header[3] = 'element vertex {}\n'.format(len(another_vert_list))
+header[7] = 'element face {}\n'.format(len(face_list))
+all_lines = header + another_vert_list + face_list
+name = output_ply[:output_ply.rfind('.')]
+with open(name + '_include_nonBox.ply', 'w') as fp:
+    fp.writelines(all_lines)

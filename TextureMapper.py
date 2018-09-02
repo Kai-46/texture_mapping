@@ -78,13 +78,12 @@ class TextureMapper(object):
         for vert in self.vertices.data:
             vert = vert.tolist()   # convert to tuple
             u, v = self.tiff.norm_coord(vert[0:3])
-            vert_list.append(vert[0:6]+(u, v))
+            vert_list.append(vert[0:3]+(u, v))
         vertices = np.array(vert_list,
                             dtype=[('x', '<f4'), ('y', '<f4'), ('z', '<f4'),
-                                   ('nx', '<f4'), ('ny', '<f4'), ('nz', '<f4'),
                                    ('u', '<f4'), ('v', '<f4')])
         vert_el = PlyElement.describe(vertices, 'vertex',
-                                      comments=['point coordinate, surface normal, texture coordinate'])
+                                      comments=['point coordinate, texture coordinate'])
         self.ply_textured = PlyData([vert_el, self.faces], text=True)
 
     # fname should not come with a file extension
@@ -128,7 +127,7 @@ class TextureMapper(object):
                 line += ' {}'.format(face_vert_cnt * 2)
                 for i in range(1, face_vert_cnt + 1):
                     idx = face[i]
-                    line += ' {:.9f} {:.9f}'.format(uv_coord[idx]['u'],  uv_coord[idx]['v'])
+                    line += ' {} {}'.format(uv_coord[idx]['u'],  uv_coord[idx]['v'])
                 modified.append(line)
         with open(ply_path, 'w') as fp:
             fp.writelines([line + '\n' for line in modified])
@@ -154,9 +153,9 @@ def test():
 
 def test2():
     tiff_path = '/home/kai/satellite_project/d2_texture_result/true_ortho.tif'
-    ply_path = '/home/kai/satellite_project/d2_texture_result/d2_merged.ply'
+    ply_path = '/home/kai/satellite_project/d2_texture_result/d2_primitives/012_5_nonBox.ply'
     texture_mapper = TextureMapper(ply_path, tiff_path)
-    texture_mapper.save('/home/kai/satellite_project/d2_texture_result/d2_merged_textured')
+    texture_mapper.save('/home/kai/satellite_project/d2_texture_result/012_5_nonBox_textured')
 
 
 def deploy():
