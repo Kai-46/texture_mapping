@@ -28,34 +28,22 @@ for item in item_list:
             all_lines = fp.readlines()
         vert_cnt = int(all_lines[3].strip().split(' ')[2])
         face_cnt = int(all_lines[13].strip().split(' ')[2])
-        if vert_cnt == 4:
-            discard_item_list.append(item)
-        else:
-            vert_list.extend(all_lines[16:16+vert_cnt])
-            # need to modify vertex index
-            faces = all_lines[16+vert_cnt:16+vert_cnt+face_cnt]
-            for i in range(face_cnt):
-                tmp = [int(x) for x in faces[i].strip().split(' ')]
-                faces[i] = '3 {} {} {}\n'.format(tmp[1] + index_drift,
-                                                 tmp[2] + index_drift, tmp[3] + index_drift)
-            face_list.extend(faces)
-            index_drift += vert_cnt
+
+        vert_list.extend(all_lines[16:16+vert_cnt])
+        # need to modify vertex index
+        faces = all_lines[16+vert_cnt:16+vert_cnt+face_cnt]
+        for i in range(face_cnt):
+            tmp = [int(x) for x in faces[i].strip().split(' ')]
+            faces[i] = '3 {} {} {}\n'.format(tmp[1] + index_drift,
+                                             tmp[2] + index_drift, tmp[3] + index_drift)
+        face_list.extend(faces)
+        index_drift += vert_cnt
     else:
         discard_item_list.append(item)
 
 header = all_lines[:16]
-header[3] = 'element vertex {}\n'.format(len(vert_list))
-header[13] = 'element face {}\n'.format(len(face_list))
 
-all_lines = header + vert_list + face_list
-with open(output_ply, 'w') as fp:
-    fp.writelines(all_lines)
-
-for item in discard_item_list:
-    print(item)
-print('total numbers of discarded items: {}'.format(len(discard_item_list)))
-
-# create another merged file which includes the nonBox .ply
+# now start to merge the 'nonBox.ply' files
 header = header[:7] + header[13:]
 another_vert_list = []
 for vert in vert_list:
@@ -79,6 +67,6 @@ for item in discard_item_list:
 header[3] = 'element vertex {}\n'.format(len(another_vert_list))
 header[7] = 'element face {}\n'.format(len(face_list))
 all_lines = header + another_vert_list + face_list
-name = output_ply[:output_ply.rfind('.')]
-with open(name + '_include_nonBox.ply', 'w') as fp:
+
+with open(output_ply, 'w') as fp:
     fp.writelines(all_lines)
