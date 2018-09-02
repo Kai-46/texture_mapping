@@ -7,7 +7,7 @@ To use on the phoenix cluster, simply
 * then switch to the codebase directory, and run 'docker build -t \<image name\> .' to build a docker image locally
 * then run './docker_run.sh \<image name\> python TextureMapper.py \<mesh file\> <ortho-photo\> \<output filename\>'
 
-This script 'docker_run.sh' starts a container with cluster directory ‘/phoenix/’ mounted, and the same user id as that on the cluster.
+Note that 'output filename' should not include the file extension, as the the program will output a pair of files, i.e., '{output filename}.ply' and '{output filename}.jpg'. The script 'docker_run.sh' starts a container with cluster directory ‘/phoenix/’ mounted, and the same user id as that on the cluster.
 
 Use 'docker run \<image name\> python TextureMapper.py -h' to see the usage details. Or you can use './docker_run.sh -ti \<image name\> bash' to enter an interactive bash shell. Note that non-root user (user id != 0) only has access to the working directory '/texture_mapping/' on the container filesystem. 
 
