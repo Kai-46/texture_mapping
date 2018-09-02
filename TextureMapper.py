@@ -97,6 +97,17 @@ class TextureMapper(object):
         self.ply_textured.write('{}.ply'.format(fname))
         TextureMapper.insert_uv_to_face('{}.ply'.format(fname))
 
+    def save(self, fname):
+        # convert tiff to jpg
+        os.system('gdal_translate -ot Byte -of jpeg {} {}.jpg'.format(self.tiff.fpath, fname))
+        # remove the intermediate file
+        os.remove(fname + '.jpg.aux.xml')
+        # save ply
+        name = fname[fname.rfind('/')+1:]
+        self.ply_textured.comments = ['TextureFile {}.jpg'.format(name), ]   # add texture file into the comment
+        self.ply_textured.write('{}.ply'.format(fname))
+        TextureMapper.insert_uv_to_face('{}.ply'.format(fname))
+
     # write texture coordinate to face
     @staticmethod
     def insert_uv_to_face(ply_path):
@@ -128,17 +139,6 @@ class TextureMapper(object):
                 modified.append(line)
         with open(ply_path, 'w') as fp:
             fp.writelines([line + '\n' for line in modified])
-
-    def save(self, fname):
-        # convert tiff to jpg
-        os.system('gdal_translate -ot Byte -of jpeg {} {}.jpg'.format(self.tiff.fpath, fname))
-        # remove the intermediate file
-        os.remove(fname + '.jpg.aux.xml')
-        # save ply
-        name = fname[fname.rfind('/')+1:]
-        self.ply_textured.comments = ['TextureFile {}.jpg'.format(name), ]   # add texture file into the comment
-        self.ply_textured.write('{}.ply'.format(fname))
-        TextureMapper.insert_uv_to_face('{}.ply'.format(fname))
 
 
 def test():
