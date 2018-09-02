@@ -21,7 +21,7 @@ Example usages:
 It seems that these visualization tools are not good at handling hundreds of small .ply files at a time. So for convenience, we also provide the utility 'merge.py' to merge all the primitives into a single .ply file. Use 'docker_run.sh \<image name\> python TextureMapper.py \<primitive_folder\> \<ortho-photo\> \<output_ply_name\>'.
 
 Example usage:
-* docker_run.sh \<image name\> python TextureMapper.py example_data/d2_primitves/ example_data/true_ortho.tif d2_merged.ply
+* docker_run.sh \<image name\> python merge.py example_data/d2_primitves/ example_data/true_ortho.tif d2_merged.ply
   * the program will actually output two files to the container filesystem. One is '/texture_mapping/d2_merged.ply'; the other is '/texture_mapping/d2_merged_include_nonBox.ply'. 'd2_merged.ply' only merges the 'box_color.ply' files, thus it is colored and has surface normal. 'd2_merged_include_nonBox.ply' additionally merges 'nonBox.ply' files; the vertex are not colored and no surface normal exist.
   * to texture-map the merged '.ply' file, use the command mentioned before.
 
