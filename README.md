@@ -9,7 +9,7 @@ To use on the phoenix cluster, simply
 
 This script 'docker_run.sh' starts a container with cluster directory ‘/phoenix/’ mounted, and the same user id as that on the cluster.
 
-Use 'docker run \<image name\> python TextureMapper.py -h' to see the usage details. Or you can use 'docker_run.sh -ti \<image name\> bash' to enter an interactive bash shell. Note that non-root user (user id != 0) only has access to the working directory '/texture_mapping/' on the container filesystem. 
+Use 'docker run \<image name\> python TextureMapper.py -h' to see the usage details. Or you can use './docker_run.sh -ti \<image name\> bash' to enter an interactive bash shell. Note that non-root user (user id != 0) only has access to the working directory '/texture_mapping/' on the container filesystem. 
 
 In the folder 'example_data/', '001_1_box_color.ply', 'true_ortho.tif', 'true_ortho_meta.json' are example files from ROI 'd2_wpafb'. 'true_ortho_meta.json' is the metadata extracted from 'true_ortho.tif'.
 
