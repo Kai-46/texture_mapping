@@ -16,7 +16,7 @@ In the folder 'example_data/', 'd2_primitives/', 'true_ortho.tif', 'true_ortho_m
 Example usages:
 * docker_run.sh \<image name\> python TextureMapper.py example_data/d2_primitves/001_1_box_color.ply example_data/true_ortho.tif 001_1_box_color
   * the program will output '/texture_mapping/001_1_box_color.ply' and '/texture_mapping/001_1_box_color.jpg' to the container filesystem. The output '.ply' is the textured mesh, with '.jpg' being the texture image. To make the output files persistent, one should specify a directory inside the mounted host volume '/phoenix/'.
-  * you can use [Meshlab](http://www.meshlab.net/) or [CloudCompare](https://www.danielgm.net/cc/). Recommended software is CloudCompare.
+  * you can use [Meshlab](http://www.meshlab.net/) or [CloudCompare](https://www.danielgm.net/cc/) to visualize the textured mesh. Recommended software is CloudCompare.
 
 It seems that these visualization tools are not good at handling hundreds of small .ply files at a time. So for convenience, we also provide the utility 'merge.py' to merge all the primitives into a single .ply file. Use 'docker_run.sh \<image name\> python TextureMapper.py \<primitive_folder\> \<ortho-photo\> \<output_ply_name\>'.
 
