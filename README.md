@@ -18,10 +18,10 @@ Example usages:
   * the program will output '/texture_mapping/001_1_box_color.ply' and '/texture_mapping/001_1_box_color.jpg' to the container filesystem. The output '.ply' is the textured mesh, with '.jpg' being the texture image. To make the output files persistent, one should specify a directory inside the mounted host volume '/phoenix/'.
   * you can use [Meshlab](http://www.meshlab.net/) or [CloudCompare](https://www.danielgm.net/cc/) to visualize the textured mesh. Recommended software is CloudCompare.
 
-It seems that these visualization tools are not good at handling hundreds of small .ply files at a time. So for convenience, we also provide the utility 'merge.py' to merge all the primitives into a single .ply file. Use 'docker_run.sh \<image name\> python merge.py \<primitive_folder\> \<ortho-photo\> \<output_ply_name\>'.
+It seems that these visualization tools are not good at handling hundreds of small .ply files at a time. So for convenience, we also provide the utility 'merge.py' to merge all the primitives into a single .ply file. Use 'docker_run.sh \<image name\> python merge.py \<primitive_folder\>  \<output_ply_name\>'.
 
 Example usage:
-* ./docker_run.sh \<image name\> python merge.py /path/to/d2_primitves/ /path/to/true_ortho.tif d2_merged.ply
+* ./docker_run.sh \<image name\> python merge.py /path/to/d2_primitves/ d2_merged.ply
   * the program will output '/texture_mapping/d2_merged.ply' to the container filesystem. Since 'box_color.ply' files have colored vertices and also have surface normals, while 'nonBox.ply' files do not, therefore, we discard the vertex color and surface normal in order to merge all the '.ply' files.
   * to texture-map the merged '.ply' file, use the command mentioned before.
 
