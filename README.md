@@ -11,7 +11,7 @@ Note that 'docker_run.sh' is a script stored at '/phoenix/S3/kz298/'. This scrip
 
 Use 'docker run \<image name\> python TextureMapper.py -h' to see the usage details. Or you can use 'docker_run.sh \<image name\> bash' to enter an interactive bash shell. Note that non-root user (user id != 0) only have access to the working directory '/texture_mapping/' on the container filesystem. 
 
-In the folder 'example_data/', 'd2_primitives/', 'true_ortho.tif', 'true_ortho_meta.json' are example files from ROI 'd2_wpafb'. 'true_ortho_meta.json' is the metadata extracted from 'true_ortho.tif'.
+In the folder 'example_data/', '001_1_box_color.ply', 'true_ortho.tif', 'true_ortho_meta.json' are example files from ROI 'd2_wpafb'. 'true_ortho_meta.json' is the metadata extracted from 'true_ortho.tif'.
 
 Example usages:
 * docker_run.sh \<image name\> python TextureMapper.py example_data/001_1_box_color.ply example_data/true_ortho.tif 001_1_box_color
@@ -21,7 +21,7 @@ Example usages:
 It seems that these visualization tools are not good at handling hundreds of small .ply files at a time. So for convenience, we also provide the utility 'merge.py' to merge all the primitives into a single .ply file. Use 'docker_run.sh \<image name\> python merge.py \<primitive_folder\> \<ortho-photo\> \<output_ply_name\>'.
 
 Example usage:
-* docker_run.sh \<image name\> python merge.py example_data/d2_primitves/ example_data/true_ortho.tif d2_merged.ply
+* docker_run.sh \<image name\> python merge.py /path/to/d2_primitves/ /path/to/true_ortho.tif d2_merged.ply
   * the program will actually output two files to the container filesystem. One is '/texture_mapping/d2_merged.ply'; the other is '/texture_mapping/d2_merged_include_nonBox.ply'. 'd2_merged.ply' only merges the 'box_color.ply' files, thus it is colored and has surface normal. 'd2_merged_include_nonBox.ply' additionally merges 'nonBox.ply' files; the vertex are not colored and no surface normal exist.
   * to texture-map the merged '.ply' file, use the command mentioned before.
 
