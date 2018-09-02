@@ -29,5 +29,3 @@ The recommended workflow is: first merge all the primitives into a single '.ply'
 
 To batch-process the texture-mapping of all the primitives in a folder, use
 'docker_run.sh \<image name\> python batch_process.py \<primitive_folder\> <ortho-photo\> \<output_folder\>'
-
-Note that the current batch-process will skip the 'nonBox.ply' files inside the primitive_folder; only 'box_color.ply' files will be processed.
