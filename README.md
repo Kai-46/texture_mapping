@@ -22,7 +22,7 @@ It seems that these visualization tools are not good at handling hundreds of sma
 
 Example usage:
 * docker_run.sh \<image name\> python merge.py /path/to/d2_primitves/ /path/to/true_ortho.tif d2_merged.ply
-  * the program will actually output two files to the container filesystem. One is '/texture_mapping/d2_merged.ply'; the other is '/texture_mapping/d2_merged_include_nonBox.ply'. 'd2_merged.ply' only merges the 'box_color.ply' files, thus it is colored and has surface normal. 'd2_merged_include_nonBox.ply' additionally merges 'nonBox.ply' files; the vertices are not colored and there's no surface normal.
+  * the program will output '/texture_mapping/d2_merged.ply' to the container filesystem. Since 'box_color.ply' files have colored vertices and surface normals, while 'nonBox.ply' files do not, therefore, we discard the vertex color and surface normal in order to merge.
   * to texture-map the merged '.ply' file, use the command mentioned before.
 
 The recommended workflow is: first merge all the primitives into a single '.ply' file, then texture-map the merged file, and finally visualize the textured mesh in CloudCompare.
