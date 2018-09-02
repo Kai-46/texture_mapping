@@ -11,7 +11,7 @@ Note that 'docker_run.sh' is a script stored at '/phoenix/S3/kz298/'. This scrip
 
 Use 'docker run \<image name\> python TextureMapper.py -h' to see the usage details. Or you can use 'docker_run.sh \<image name\> bash' to enter an interactive bash shell. Note that non-root user (user id != 0) only have access to the working directory '/texture_mapping/' on the container filesystem. 
 
-In the folder 'example_data/', 'd2_primitives/', 'true_ortho.tif', 'true_ortho_meta.json' are example files from ROI 'd2_wpafb'. 'true_ortho_meta.json' are the metadata extracted from 'true_ortho.tif'.
+In the folder 'example_data/', 'd2_primitives/', 'true_ortho.tif', 'true_ortho_meta.json' are example files from ROI 'd2_wpafb'. 'true_ortho_meta.json' is the metadata extracted from 'true_ortho.tif'.
 
 Example usages:
 * docker_run.sh \<image name\> python TextureMapper.py example_data/d2_primitves/001_1_box_color.ply example_data/true_ortho.tif 001_1_box_color
